@@ -13,5 +13,7 @@ function onLoad() {
             nav.classList.add("open")
         }
     })
+    const search = document.querySelector ("#search")
+    search.addEventListener("submit", function )
 }
 window.addEventListener("load", onLoad )
