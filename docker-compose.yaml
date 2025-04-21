@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_USER=mariadb
+      - DB_PASSWORD=mariadb
+      - DB_NAME=mariadb
+
+  db:
+    image: mariadb:10.4
+    restart: unless-stopped
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: mariadb
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mariadb
+    ports:
+      - "3306:3306"
+
+  pma:
+    image: phpmyadmin
+    environment:
+      PMA_HOST: db
+    depends_on:
+      - db
+    ports:
+      - "8082:80"
+
+volumes:
+  mariadb-data:
